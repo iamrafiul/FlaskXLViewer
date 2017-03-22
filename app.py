@@ -1,7 +1,7 @@
 # @Author: mdrhri-6
 # @Date:   2017-03-10T02:36:18+01:00
 # @Last modified by:   mdrhri-6
-# @Last modified time: 2017-03-13T04:59:57+01:00
+# @Last modified time: 2017-03-22T16:03:01+01:00
 
 from tree_traversal_bottom_up import brb_algorithm
 import xlrd
@@ -112,3 +112,8 @@ def get_row_data():
     result = brb_algorithm(structured_data)
     row_data = [str(each) for each in data[1:]]
     return jsonify(columns[1:], row_data, column_data, result)
+
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
