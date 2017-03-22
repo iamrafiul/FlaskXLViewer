@@ -1,7 +1,7 @@
 # @Author: mdrhri-6
 # @Date:   2017-03-10T02:36:18+01:00
 # @Last modified by:   mdrhri-6
-# @Last modified time: 2017-03-22T16:37:56+01:00
+# @Last modified time: 2017-03-22T16:52:46+01:00
 
 from tree_traversal_bottom_up import brb_algorithm
 import xlrd
@@ -86,8 +86,10 @@ def get_data_from_excel(id):
 @app.route('/')
 def index():
     # import pdb; pdb.set_trace()
-    data = get_data_from_excel(0)
-    columns = get_headings_from_excel()
+    //data = get_data_from_excel(0)
+    data = ""
+    //columns = get_headings_from_excel()
+    columns = ""
     return render_template('index.html', columns = columns, data=data)
 
 @app.route('/get_row_data/')
