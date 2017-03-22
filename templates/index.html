@@ -1,0 +1,739 @@
+<!--
+@Author: mdrhri-6
+@Date:   2017-03-10T11:44:43+01:00
+@Last modified by:   mdrhri-6
+@Last modified time: 2017-03-22T15:04:23+01:00
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/stylesheets/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/stylesheets/style.css" rel="stylesheet">
+    <link href="../static/treant/Treant.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">BRB Data Viewer</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="">Home</a></li>
+            <li><a href="#about">Upload Data</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container" style="overflow: auto;">
+      <h1><small>Excel data</small></h1>
+      <table class="table table-hover table-striped table-bordered">
+        <tr>
+          {% for each in columns %}
+          <th>{{ each }}</th>
+          {% endfor %}
+        </tr>
+        {% for each in data %}
+          <tr class="data-row" id='{{each[0]}}'>
+            {% for key in each%}
+              <td>{{ key }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
+
+    </div><!-- /.container -->
+
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <!-- <button id="data-grid-btn" class="btn-success btn-sm" style="float: right; margin-right: 10px;">Show Data</button> -->
+        <!-- <div class="button-container">
+          <button id="tree-btn" class="btn-success btn-sm">Show Tree</button>
+          <button id="data-grid-btn" class="btn-success btn-sm">Show Data</button>
+          <button id="result-btn" class="btn-success btn-sm">Show Result</button>
+        </div> -->
+
+        <div class="horizontal-divs" id="horizontal-divs">
+          <div class="col-md-8">
+            <div id="tree-simple" class="tree-simple"></div>
+            <div class="clearfix"></div>
+            <div id="result-div" class="result-div">
+              <p style="margin-top: 10px;">Result for x5(Livelihood)</p>
+              <table id="data-table-top">
+              </table>
+
+              <p style="margin-top: 0%; padding-left: 1%; width: 300px;">Result for x1(Directly Intangible)</p>
+              <table id="data-table-left-top">
+              </table>
+
+              <p style="margin-top: -27px; margin-right: 10%; width: 300px; float: right;">Result for x2(Directly Tangible)</p>
+              <table id="data-table-right-top">
+              </table>
+
+
+              <p style="margin-top: 5%; padding-left: 1%; width: 300px;">Result for x3(Indirectly Intangible)</p>
+              <table id="data-table-left-bottom">
+              </table>
+
+              <p style="margin-top: -27px; margin-right: 10%; width: 300px; float: right;">Result for x4(Indirectly Tangible)</p>
+              <table id="data-table-right-bottom">
+              </table>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="modal-data table-responsive" id="modal-data"></div>
+          </div>
+        </div>
+
+        <!-- <div id="data-grid"></div> -->
+      </div>
+
+    </div>
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+    <script src="../static/javascripts/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../static/javascripts/jquery.min.js"><\/script>')</script>
+
+    <script src="../static/treant/vendor/raphael.js"></script>
+    <script src="../static/treant/Treant.js"></script>
+
+    <script type="text/javascript">
+    $(function() {
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        window.row_id = -1;
+        $('.data-row').on('click', function() {
+          $('#data-table-top').empty();
+
+          $('#data-table-left-top').empty();
+          $('#data-table-right-top').empty();
+          $('#data-table-left-bottom').empty();
+          $('#data-table-right-bottom').empty();
+
+          window.row_id = this.id;
+          console.log(row_id);
+          showModal();
+          $('#modal-data').empty();
+          var chart = generateTree();
+
+          // addNodeInfoTable();
+
+          $.ajax(
+            {
+              url: $SCRIPT_ROOT + '/get_row_data',
+              data: {
+                id: window.row_id
+              },
+              success: function(result){
+                console.log("Result[3]: " + result[3]);
+                for (each in result[3]) {
+                  console.log(each, result[3][each]);
+                }
+                var obj1 = result[2];
+                $('#modal-data').empty();
+                addDataTable(obj1);
+
+                for (each in result[3]) {
+                  if (result[3][each][0] == 'x5') {
+                    myTable = document.getElementById('data-table-top');
+
+                    var tr = document.createElement('TR');
+                    tr.width = "100%";
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode("Consequence Values"))
+                    tr.appendChild(td);
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode(result[3][each][1]))
+                    tr.appendChild(td);
+
+                    myTable.appendChild(tr);
+
+                    var tr = document.createElement('TR');
+                    tr.width = "100%";
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode("Crisp Value"))
+                    tr.appendChild(td);
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode(result[3][each][2]))
+                    tr.appendChild(td);
+
+                    myTable.appendChild(tr);
+                  }
+                  if (result[3][each][0] == 'x1') {
+                    myTable = document.getElementById('data-table-left-top');
+
+                    var tr = document.createElement('TR');
+                    tr.width = "100%";
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode("Consequence Values"))
+                    tr.appendChild(td);
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode(result[3][each][1]))
+                    tr.appendChild(td);
+
+                    myTable.appendChild(tr);
+
+                    var tr = document.createElement('TR');
+                    tr.width = "100%";
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode("Crisp Value"))
+                    tr.appendChild(td);
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode(result[3][each][2]))
+                    tr.appendChild(td);
+
+                    myTable.appendChild(tr);
+                  }
+                  if (result[3][each][0] == 'x2') {
+                    myTable = document.getElementById('data-table-right-top');
+
+                    var tr = document.createElement('TR');
+                    tr.width = "100%";
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode("Consequence Values"))
+                    tr.appendChild(td);
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode(result[3][each][1]))
+                    tr.appendChild(td);
+
+                    myTable.appendChild(tr);
+
+                    var tr = document.createElement('TR');
+                    tr.width = "100%";
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode("Crisp Value"))
+                    tr.appendChild(td);
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode(result[3][each][2]))
+                    tr.appendChild(td);
+
+                    myTable.appendChild(tr);
+                  }
+                  if (result[3][each][0] == 'x3') {
+                    myTable = document.getElementById('data-table-left-bottom');
+
+                    var tr = document.createElement('TR');
+                    tr.width = "100%";
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode("Consequence Values"))
+                    tr.appendChild(td);
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode(result[3][each][1]))
+                    tr.appendChild(td);
+
+                    myTable.appendChild(tr);
+
+                    var tr = document.createElement('TR');
+                    tr.width = "100%";
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode("Crisp Value"))
+                    tr.appendChild(td);
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode(result[3][each][2]))
+                    tr.appendChild(td);
+
+                    myTable.appendChild(tr);
+                  }
+                  if (result[3][each][0] == 'x4') {
+                    myTable = document.getElementById('data-table-right-bottom');
+
+                    var tr = document.createElement('TR');
+                    tr.width = "100%";
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode("Consequence Values"))
+                    tr.appendChild(td);
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode(result[3][each][1]))
+                    tr.appendChild(td);
+
+                    myTable.appendChild(tr);
+
+                    var tr = document.createElement('TR');
+                    tr.width = "100%";
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode("Crisp Value"))
+                    tr.appendChild(td);
+
+                    var td = document.createElement('TD');
+                    td.width = "50%"
+                    td.appendChild(document.createTextNode(result[3][each][2]))
+                    tr.appendChild(td);
+
+                    myTable.appendChild(tr);
+                  }
+                }
+              }
+            }
+          );
+
+        });
+
+        $('#tree-btn').on('click', function(){
+          $('#tree-simple').show();
+          $('#modal-data').empty();
+          addNodeInfoTable();
+        });
+
+        $('#data-grid-btn').on('click', function(){
+          $.ajax(
+            {
+              url: $SCRIPT_ROOT + '/get_row_data',
+              data: {
+                id: window.row_id
+              },
+              success: function(result){
+                console.log("Result[2]: " + result[2]);
+                for (each in result[2]) {
+                  console.log(each, result[2][each]);
+                }
+                var obj1 = result[2];
+                // console.log("Obj1: " + obj1);
+                // Object.keys(obj1).forEach( function (key) {
+                //   console.log(obj1[key]+ ', ' + obj2[key]);
+                // });
+                $('#modal-data').empty();
+                addDataTable(obj1);
+              }
+            }
+          );
+
+          $('#modal-data').show();
+
+        });
+
+        function addNodeInfoTable() {
+            // var table_data = {{ data }};
+            // console.log('Data: ' + double_data);
+
+            var myTableDiv = document.getElementById('modal-data');
+            myTableDiv.setAttribute('style', 'width: 30%; height: 50%;');
+
+            var table = document.createElement('TABLE');
+            // table.className = 'table table-striped';
+            // table.className == 'table-striped';
+            table.setAttribute('style', 'overflow: auto;');
+            // table.setAttribute('style', 'overflow: auto;');
+            // table.setAttribute('style', 'margin: auto auto auto 0px;');
+            var tableBody = document.createElement('TBODY');
+
+            table.appendChild(tableBody);
+
+            var heading = new Array();
+            heading[0] = "Antecedent Name";
+            heading[1] = "Node Name";
+
+            var stock = new Array();
+            stock[0] = new Array("x5", "Livelihood");
+            stock[1] = new Array("x1", "Directly Intangible");
+            stock[2] = new Array("x2", "Directly Tangible");
+            stock[3] = new Array("x3", "Indirectly Intangible");
+            stock[4] = new Array("x4", "Indirectly Tangible");
+
+            stock[5] = new Array("x6", "Percentage of Loss of Cattle");
+            stock[6] = new Array("x7", "Social Condition");
+
+            stock[7] = new Array("x20", "Area");
+            stock[8] = new Array("x21", "Crop");
+            stock[9] = new Array("x22", "Water Level");
+            stock[10] = new Array("x23", "Availability of Cattle Food");
+            stock[11] = new Array("x24", "Accomodation Problem");
+            stock[12] = new Array("x25", "Availability of Transport");
+            stock[13] = new Array("x26", "Length of Road Effected");
+            stock[14] = new Array("x28", "Road Damage");
+            stock[15] = new Array("x29", "Duration of standing water");
+
+            stock[16] = new Array("x12", "Amount of Crop");
+            stock[17] = new Array("x13", "Fertility");
+            stock[18] = new Array("x14", "Availability of Labor");
+            stock[19] = new Array("x15", "Cost of Raw Materials");
+            stock[20] = new Array("x16", "Agricultural Wages");
+
+            stock[21] = new Array("x8", "Financial Condition");
+            stock[22] = new Array("x9", "Mental Condition");
+
+            stock[23] = new Array("x10", "Transport");
+            stock[24] = new Array("x11", "Availability of Stuffs");
+
+            stock[25] = new Array("x31", "Cost of Transport");
+            stock[26] = new Array("x32", "Frequency of Travellers");
+            stock[27] = new Array("x33", "Transportation of Goods");
+            stock[28] = new Array("x34", "Transportation Delay");
+
+
+
+            // Object.keys(data).forEach( function (key) {
+            //   stock[key] = new Array(headings[key], data[key]);
+            // });
+            console.log(stock);
+
+            //TABLE COLUMNS
+            var tr = document.createElement('TR');
+            tr.width = "100%";
+            tableBody.appendChild(tr);
+            // for (i = 0; i < heading.length; i++) {
+            //     var th = document.createElement('TH');
+            //     // th.width = '75%';
+            //     th.appendChild(document.createTextNode(heading[i]));
+            //     tr.appendChild(th);
+            // }
+
+            var th = document.createElement('TH');
+            th.width = '75%';
+            th.appendChild(document.createTextNode(heading[0]));
+            tr.appendChild(th);
+
+            var th = document.createElement('TH');
+            th.width = '75%';
+            th.appendChild(document.createTextNode(heading[1]));
+            tr.appendChild(th);
+
+            //TABLE ROWS
+            for (i = 0; i < stock.length; i++) {
+                var tr = document.createElement('TR');
+                // tr.width = "100%";
+                // for (j = stock[i].length; j >= 0; j--) {
+                //     var td = document.createElement('TD');
+                //     td.width = "75%";
+                //     td.appendChild(document.createTextNode(stock[i][j]));
+                //     tr.appendChild(td);
+                // }
+
+                var td = document.createElement('TD');
+                td.width = "75%";
+                td.appendChild(document.createTextNode(stock[i][1]));
+                tr.appendChild(td);
+
+                var td = document.createElement('TD');
+                td.width = "75%";
+                td.appendChild(document.createTextNode(stock[i][0]));
+                tr.appendChild(td);
+
+
+                tableBody.appendChild(tr);
+            }
+
+            myTableDiv.appendChild(table);
+            var my_modal = document.getElementById('horizontal-divs');
+            my_modal.appendChild(myTableDiv);
+
+        }
+
+        function addDataTable(data) {
+            var myTableDiv = document.getElementById('modal-data');
+
+            var table = document.createElement('TABLE');
+            // table.className = 'table table-striped';
+            // table.className == 'table-striped';
+            table.setAttribute('style', 'width: 100%;');
+            table.setAttribute('style', 'overflow: auto;');
+            var tableBody = document.createElement('TBODY');
+
+            table.appendChild(tableBody);
+
+            var heading = new Array();
+            heading[0] = "Antecedent Name";
+            heading[1] = "Node Name";
+            heading[2] = "Input";
+
+            var stock = new Array();
+            var i = 0;
+            for (each in data) {
+              stock[i] = new Array(data[each][0], each, data[each][1]);
+              i += 1;
+            }
+            // Object.keys(data).forEach( function (key) {
+            //   stock[key] = new Array(headings[key], data[key]);
+            // });
+            console.log(stock);
+
+            //TABLE COLUMNS
+            var tr = document.createElement('TR');
+            tr.width = "100%";
+            tableBody.appendChild(tr);
+            for (i = 0; i < heading.length; i++) {
+                var th = document.createElement('TH');
+                // th.width = '75%';
+                th.appendChild(document.createTextNode(heading[i]));
+                tr.appendChild(th);
+            }
+
+            //TABLE ROWS
+            for (i = 0; i < stock.length; i++) {
+                var tr = document.createElement('TR');
+                tr.width = "100%";
+                for (j = 0; j < stock[i].length; j++) {
+                    var td = document.createElement('TD');
+                    td.width = "25%";
+                    td.appendChild(document.createTextNode(stock[i][j]));
+                    tr.appendChild(td);
+                }
+                tableBody.appendChild(tr);
+            }
+
+            myTableDiv.appendChild(table);
+            var my_modal = document.getElementById('horizontal-divs');
+            my_modal.appendChild(myTableDiv);
+
+        }
+
+        function generateTree() {
+          x5 = {
+              text: { name: "x5" }
+          };
+
+          x1 = {
+              parent: x5,
+              text: { name: "x1" }
+          };
+
+          x2 = {
+              parent: x5,
+              text: { name: "x2" }
+          };
+
+          x3 = {
+              parent: x5,
+              text: { name: "x3" }
+          };
+
+          x4 = {
+              parent: x5,
+              text: { name: "x4" }
+          };
+
+          x6 = {
+              parent: x1,
+              text: { name: "x6" }
+          };
+
+          x7 = {
+              parent: x1,
+              text: { name: "x7" }
+          };
+
+          x20 = {
+              parent: x2,
+              text: { name: "x20" }
+          };
+
+          x21 = {
+              parent: x2,
+              text: { name: "x21" }
+          };
+
+          x22 = {
+              parent: x2,
+              text: { name: "x22" }
+          };
+
+          x23 = {
+              parent: x2,
+              text: { name: "x23" }
+          };
+
+          x24 = {
+              parent: x2,
+              text: { name: "x24" }
+          };
+
+          x25 = {
+              parent: x2,
+              text: { name: "x25" }
+          };
+
+          x26 = {
+              parent: x2,
+              text: { name: "x26" }
+          };
+
+          x28 = {
+              parent: x2,
+              text: { name: "x28" }
+          };
+
+          x29 = {
+              parent: x2,
+              text: { name: "x29" }
+          };
+
+          x12 = {
+              parent: x21,
+              text: { name: "x12" }
+          };
+
+          x13 = {
+              parent: x21,
+              text: { name: "x13" }
+          };
+
+          x14 = {
+              parent: x21,
+              text: { name: "x14" }
+          };
+
+          x15 = {
+              parent: x21,
+              text: { name: "x15" }
+          };
+
+          x16 = {
+              parent: x21,
+              text: { name: "x16" }
+          };
+
+          x8 = {
+              parent: x3,
+              text: { name: "x8" }
+          };
+
+          x9 = {
+              parent: x3,
+              text: { name: "x9" }
+          };
+
+          x10 = {
+              parent: x4,
+              text: { name: "x10" }
+          };
+
+          x11 = {
+              parent: x4,
+              text: { name: "x11" }
+          };
+
+          x31 = {
+              parent: x10,
+              text: { name: "x31" }
+          };
+
+          x32 = {
+              parent: x10,
+              text: { name: "x32" }
+          };
+
+          x33 = {
+              parent: x10,
+              text: { name: "x33" }
+          };
+
+          x34 = {
+              parent: x10,
+              text: { name: "x34" }
+          };
+
+          config = {
+              container: "#tree-simple"
+          };
+
+          simple_chart_config = [
+              config,
+              x1, x2, x3, x4, x5,
+              x6, x7, x8, x9, x10,
+              x11, x12, x13, x14,
+              x15, x16, x20, x21,
+              x22, x23, x24, x25,
+              x26, x28, x29, x31,
+              x32, x33, x34
+          ];
+
+          var chart = new Treant(simple_chart_config, function(){
+            console.log('Tree Loaded')}, $
+          );
+
+          return chart;
+        }
+
+        function showModal() {
+          // Get the modal
+          var modal = document.getElementById('myModal');
+
+          // Get the button that opens the modal
+          var btn = document.getElementById("myBtn");
+
+          // Get the <span> element that closes the modal
+          var span = document.getElementsByClassName("close")[0];
+
+          // Open the modal
+          modal.style.display = "block";
+
+          // When the user clicks on <span> (x), close the modal
+          span.onclick = function() {
+              modal.style.display = "none";
+          }
+
+          // When the user clicks anywhere outside of the modal, close it
+          window.onclick = function(event) {
+              if (event.target == modal) {
+                  modal.style.display = "none";
+              }
+          }
+        }
+    });
+    </script>
+  </body>
+</html>

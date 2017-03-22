@@ -1,0 +1,645 @@
+{
+  "x5": {
+    "antecedent_id": "x5",
+    "antecedent_name": "Livelihood",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.50",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x5",
+    "input_val": "",
+    "is_input": "false"
+  },
+  "x1": {
+    "antecedent_id": "x1",
+    "antecedent_name": "Directly Intangible",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.50",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x5",
+    "input_val": "",
+    "is_input": "false"
+  },
+  "x6": {
+    "antecedent_id": "x6",
+    "antecedent_name": "Percentage of Loss of cattle",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.50",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x1",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x7": {
+    "antecedent_id": "x7",
+    "antecedent_name": "Social Condition",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.50",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x1",
+    "input_val": "",
+    "is_input": "true"
+  },
+
+  "x2": {
+    "antecedent_id": "x2",
+    "antecedent_name": "Directly Tangible",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.50",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x5",
+    "input_val": "",
+    "is_input": "false"
+  },
+  "x20": {
+    "antecedent_id": "x20",
+    "antecedent_name": "Area",
+    "attribute_weight": "1",
+    "ref_val": [
+      "15",
+      "10",
+      "5"
+    ],
+    "ref_title": [
+      "Big",
+      "Medium",
+      "Small"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x2",
+    "input_val": "",
+    "is_input": "true"
+  },
+
+  "x21": {
+    "antecedent_id": "x21",
+    "antecedent_name": "Crop",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.5",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x2",
+    "input_val": "",
+    "is_input": "false"
+  },
+  "x12": {
+    "antecedent_id": "x12",
+    "antecedent_name": "Amount of Crop",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.75",
+      "0.50"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x21",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x13": {
+    "antecedent_id": "x13",
+    "antecedent_name": "Fertility",
+    "attribute_weight": "1",
+    "ref_val": [
+      "2",
+      "1",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x21",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x14": {
+    "antecedent_id": "x14",
+    "antecedent_name": "Availability of Labor",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.50",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x21",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x15": {
+    "antecedent_id": "x15",
+    "antecedent_name": "Cost of Raw Materials",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.7",
+      "0.5"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x21",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x16": {
+    "antecedent_id": "x16",
+    "antecedent_name": "Agricultural Wages",
+    "attribute_weight": "1",
+    "ref_val": [
+      "0.30",
+      "0.15",
+      "0.00"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x21",
+    "input_val": "",
+    "is_input": "true"
+  },
+
+  "x22": {
+    "antecedent_id": "x22",
+    "antecedent_name": "Water Level",
+    "attribute_weight": "1",
+    "ref_val": [
+      "6",
+      "4",
+      "2"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x2",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x23": {
+    "antecedent_id": "x23",
+    "antecedent_name": "Availability of Cattle Food",
+    "attribute_weight": "1",
+    "ref_val": [
+      "0.5",
+      "0.4",
+      "0.3"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x2",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x24": {
+    "antecedent_id": "x24",
+    "antecedent_name": "Accomodation",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1.0",
+      "0.5",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x2",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x25": {
+    "antecedent_id": "x25",
+    "antecedent_name": "Availability of Transport",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1.0",
+      "0.7",
+      "0.3"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x2",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x26": {
+    "antecedent_id": "x26",
+    "antecedent_name": "Length of Road Effected",
+    "attribute_weight": "1",
+    "ref_val": [
+      "15",
+      "10",
+      "5"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x2",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x28": {
+    "antecedent_id": "x28",
+    "antecedent_name": "Road Damage",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.5",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x2",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x29": {
+    "antecedent_id": "x29",
+    "antecedent_name": "Duration of standing water",
+    "attribute_weight": "1",
+    "ref_val": [
+      "5",
+      "2.5",
+      "0"
+    ],
+    "ref_title": [
+      "Big",
+      "Medium",
+      "Small"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x2",
+    "input_val": "",
+    "is_input": "true"
+  },
+
+  "x3": {
+    "antecedent_id": "x3",
+    "antecedent_name": "Indirectly Intangible",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.50",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x5",
+    "input_val": "",
+    "is_input": "false"
+  },
+  "x8": {
+    "antecedent_id": "x8",
+    "antecedent_name": "Financial Condition",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.5",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x3",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x9": {
+    "antecedent_id": "x9",
+    "antecedent_name": "Mental Condition",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.5",
+      "0"
+    ],
+    "ref_title": [
+      "Severe",
+      "Average",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x3",
+    "input_val": "",
+    "is_input": "true"
+  },
+
+  "x4": {
+    "antecedent_id": "x4",
+    "antecedent_name": "Indirectly Tangible",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.50",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x5",
+    "input_val": "",
+    "is_input": "false"
+  },
+  "x10": {
+    "antecedent_id": "x10",
+    "antecedent_name": "Transport",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.50",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x4",
+    "input_val": "",
+    "is_input": "false"
+  },
+  "x31": {
+    "antecedent_id": "x31",
+    "antecedent_name": "Cost of Transport",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1.0",
+      "0.80",
+      "0.60"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x10",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x32": {
+    "antecedent_id": "x32",
+    "antecedent_name": "Frequency of Travellers",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1.0",
+      "0.5",
+      "0.0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x10",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x33": {
+    "antecedent_id": "x33",
+    "antecedent_name": "Transportation of Goods",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.5",
+      "0.0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x10",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x34": {
+    "antecedent_id": "x34",
+    "antecedent_name": "Transportation Delay",
+    "attribute_weight": "1",
+    "ref_val": [
+      "2.0",
+      "1.0",
+      "0.0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x10",
+    "input_val": "",
+    "is_input": "true"
+  },
+  "x11": {
+    "antecedent_id": "x11",
+    "antecedent_name": "Availability of Transport Stuffs",
+    "attribute_weight": "1",
+    "ref_val": [
+      "1",
+      "0.5",
+      "0"
+    ],
+    "ref_title": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "consequent_values": [
+      "[]"
+    ],
+    "crisp_val": "",
+    "parent": "x4",
+    "input_val": "",
+    "is_input": "true"
+  }
+}
